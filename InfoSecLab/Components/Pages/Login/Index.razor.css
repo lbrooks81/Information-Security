@@ -1,0 +1,49 @@
+﻿main
+{
+    height: 100%;
+}
+
+.page-form
+{
+    width: max(500px, 25%);
+    background-color: var(--bs-secondary-bg);
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.login-form input[type="email"]
+{
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.login-form input[type="password"]
+{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.btn
+{
+    margin: auto;
+    display: block;
+}
+
+.btn-primary
+{
+    margin-bottom: 0.5rem;
+}
+
+.errors
+{
+    font-size: 1.2rem;
+    color: var(--bs-danger);
+    margin-bottom: 1rem;
+}
+
+.success-messages
+{
+    font-size: 1.2rem;
+    color: var(--bs-success);
+    margin-bottom: 1rem;
+}

@@ -1,0 +1,60 @@
+﻿@page "/Login/Register"
+
+<PageTitle>Registration Page</PageTitle>
+
+<main class="d-flex align-items-center">
+
+    <div class="page-form m-auto">
+
+        <form class="m-auto login-form" id="login-form" @onsubmit="() => PerformRegister()" data-enhance>
+            <AntiforgeryToken />
+            <h1 class="h3 mb-3 fw-normal">Register an account</h1>
+
+            <div class="form-floating">
+                @{
+                    String classText = "form-control " + EmailErrorClass;
+                }
+                <input type="email" class="@classText" id="floatingInput" required
+                       placeholder="Email address..." @bind="Email" />
+                <label for="floatingInput">Email address</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" required
+                       placeholder="Password..." @bind="Password" />
+                <label for="floatingPassword">Password</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPasswordConfirmation" required
+                       placeholder="Confirm Password..." @bind="PasswordConfirmation" />
+                <label for="floatingPasswordConfirmation">Confirm Password</label>
+            </div>
+
+            <div class="errors">
+                @if (EmailValid == false)
+                {
+                    <div>Email is invalid</div>
+                }
+                @if (PasswordsMatch == false)
+                {
+                    <div>Passwords do not match</div>
+                }
+            </div>
+            <div class="success-messages">
+                @if (RegistrationSuccess == true)
+                {
+                    <div>@ReigstrationSuccessfulMsg</div>
+                }
+            </div>
+
+            <button type="submit" class="btn btn-primary w-75 py-2" id="submit-btn">
+                <span>Register</span>
+            </button>
+        </form>
+
+        <a class="btn btn-secondary w-75 py-2" href="/Login/">
+            Have an account? Log in
+        </a>
+
+        <p class="mt-5 mb-3 text-body-secondary">© @(DateTime.Now.Year)</p>
+    </div>
+</main>
