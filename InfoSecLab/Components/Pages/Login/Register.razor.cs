@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using InfoSecLab.Models;
+using Microsoft.AspNetCore.Components;
 using System.Text.RegularExpressions;
 
 namespace InfoSecLab.Components.Pages.Login
@@ -24,6 +25,8 @@ namespace InfoSecLab.Components.Pages.Login
         private bool RegistrationSuccess { get; set; } = false;
         private String ReigstrationSuccessfulMsg { get; set; } = String.Empty;
 
+        [Inject]
+        private InfoSecDemoContext DbContext { get; set; }
         private void PerformRegister()
         {
             // Reset variables
@@ -45,7 +48,23 @@ namespace InfoSecLab.Components.Pages.Login
                 return;
             }
 
-            //TODO: Your code here
+            // Duplicate email validation
+            if (DbContext.Users.Any(user => user.UserEmail.Equals(Email, StringComparison.OrdinalIgnoreCase)))
+            {
+                EmailValid = false;
+                return;
+            }
+
+            String hashedPassword = HashUtils.HashPassword(Password);
+            User user = new User
+            {
+                UserEmail = Email,
+                UserPwdHash = hashedPassword
+            };
+
+            DbContext.Users.Add(user);
+            DbContext.SaveChanges();
+            RegistrationSuccessful();
         }
 
         private void RegistrationSuccessful()

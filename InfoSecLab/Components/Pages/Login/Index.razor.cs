@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using InfoSecLab.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http.Json;
@@ -27,6 +29,9 @@ namespace InfoSecLab.Components.Pages.Login
 
         private bool LoginSuccess { get; set; } = false;
         private String LoginSuccessfulMsg { get; set; } = String.Empty;
+        
+        [Inject]
+        private InfoSecDemoContext DbContext { get; set; }
 
         // This method is called when the component is first initialized
         protected override void OnInitialized()
@@ -42,7 +47,20 @@ namespace InfoSecLab.Components.Pages.Login
                 return;
             }
 
-            //TODO: Your code here
+            User? user = DbContext.Users.FirstOrDefault(u => u.UserEmail.Equals(Email, StringComparison.OrdinalIgnoreCase));
+            // User not found
+            if (user == null)
+            {
+                return;
+            }
+
+            // Verify password
+            if (HashUtils.VerifyPassword(Password, user.UserPwdHash) == false)
+            {
+                return;
+            }
+
+            LoginSuccessful();
         }
 
         private bool ValidateForm()
